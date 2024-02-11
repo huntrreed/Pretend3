@@ -21,7 +21,7 @@ router.post('/get-started-form', async (req, res) => {
   try {
     const newUser = await User.create({
       name,
-      userName,
+      username,
       email,
       password, // Make sure to hash the password before saving it
       fostering,
