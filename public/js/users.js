@@ -74,7 +74,7 @@ const newFormHandler = async (event) => {
     anythingElse &&
     why
   ) {
-    fetch(`api/userRoutes`, {
+    fetch(`/api/users/get-started-form`, { // Make sure this URL matches your actual endpoint
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -93,20 +93,27 @@ const newFormHandler = async (event) => {
         why,
       }),
     })
-      .then((response) => response.text())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok.');
+        }
+        return response.json();
+      })
       .then((data) => {
-        if (data) {
-          let jsonData = JSON.parse(data);
-          console.log(jsonData);
-          if (jsonData.ok) {
-            document.location.replace('/profile');
-          } else {
-            alert('Failed to create user');
-          }
+        console.log(data);
+        // Use the redirectTo value from the response to redirect the user
+        if (data.redirectTo) {
+          window.location.href = data.redirectTo;
         } else {
-          console.log('Empty response');
+          console.log('No redirection URL provided.');
         }
       })
-      .catch((error) => console.error('Error:', error));
+      .catch((error) => {
+        console.error('Error:', error);
+        alert('Failed to submit form.');
+      });
   }
 };
+
+// Add an event listener for your form submission
+document.querySelector('#myForm').addEventListener('submit', newFormHandler);
