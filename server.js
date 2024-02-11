@@ -68,8 +68,9 @@ app.get('/', (req, res) => {
 });
 
 // Include your routes
-const userRoutes = require('./controllers/userRoutes');
+const userRoutes = require('./controllers/api/userRoutes');
 app.use('/api/users', userRoutes);
+
 const viewRoutes = require('./controllers/views');
 
 app.use(express.json());
@@ -77,7 +78,6 @@ app.use(express.urlencoded({ extended: true }));
 
 // Define routes
 app.use('/', viewRoutes);
-app.use('/api/users', userRoutes);
 
 const PORT = process.env.PORT || 5502;
 sequelize
