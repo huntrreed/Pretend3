@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const formData = {
       name,
-      userName,
+      username,
       email,
       password, // Assuming you handle hashing on the server-side
       fostering,
