@@ -6,7 +6,7 @@ const { User } = require('../../models');
 router.post('/get-started-form', async (req, res) => {
   const {
     name,
-    userName,
+    username,
     email,
     password,
     fostering,
