@@ -76,6 +76,10 @@ app.use('/api/users', userRoutes);
 
 const viewRoutes = require('./controllers/views');
 
+// Route to serve dog data
+app.get('/api/dogs', (req, res) => {
+  res.sendFile(path.join(__dirname, 'seeds', 'dogData.json'));
+});
 
 // Define routes
 app.use('/', viewRoutes);

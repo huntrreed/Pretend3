@@ -15,17 +15,29 @@ Dog.init(
     type: DataTypes.STRING,
     allowNull: false,
     },
+    age: {
+        type: DataTypes.INTEGER,
+    },
     description: {
     type: DataTypes.STRING,
     },
     // TODO: possibly change integer to string?
-    age: {
-        type: DataTypes.INTEGER,
-    },
-    size: {
+    energyLevel: {
         type: DataTypes.STRING,
     },
     kidFriendly: {
+        type: DataTypes.BOOLEAN,
+    },
+    otherDogFriendly: {
+        type: DataTypes.BOOLEAN,
+    },
+    spayedNeutered: {
+        type: DataTypes.BOOLEAN,
+    },
+    weight: {
+        type: DataTypes.STRING,
+    },
+    specialMedNeeds: {
         type: DataTypes.BOOLEAN,
     },
     user_id: {
