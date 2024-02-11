@@ -47,10 +47,17 @@ router.post('/get-started-form', async (req, res) => {
     });
     
   } catch (err) {
-    console.error(err);
-    res.status(400).json(err);
+    if (err.name === 'SequelizeValidationError') {
+      // Extract validation error messages
+      const validationErrors = err.errors.map((error) => error.message);
+      res.status(400).json({ errors: validationErrors });
+    } else {
+      // For other types of errors, you might not want to display the raw error message
+      // to the client, but rather log it internally and send a generic error message.
+      console.error(err);
+      res.status(500).json({ error: 'An internal server error occurred.' });
+    }
   }
-});
 
 router.post('/login', async (req, res) => {
   try {
