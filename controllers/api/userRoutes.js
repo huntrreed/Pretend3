@@ -1,6 +1,8 @@
-const router = require('express').Router();
+const express = require('express');
+const router = express.Router();
 const { User } = require('../../models');
 
+// Route for handling the form submission
 router.post('/get-started-form', async (req, res) => {
   const {
     name,
@@ -21,7 +23,7 @@ router.post('/get-started-form', async (req, res) => {
       name,
       userName,
       email,
-      password,
+      password, // Make sure to hash the password before saving it
       fostering,
       hasPets,
       fencedYard,
@@ -31,26 +33,21 @@ router.post('/get-started-form', async (req, res) => {
       why,
     });
 
-    res.send('Success!');
-  } catch (err) {
-    res.status(400).json(err);
-  }
-});
-
-router.post('/', async (req, res) => {
-  try {
-    const userData = await User.create(req.body);
-
+    // Assuming you have session middleware set up
     req.session.save(() => {
-      req.session.user_id = userData.id;
+      req.session.user_id = newUser.id;
       req.session.logged_in = true;
 
-      res.status(200).json(userData);
+      // Redirect based on the fostering senior dogs response
+      if (fostering === 'yes') {
+        res.json({ redirectTo: '/allDogs' });
+      } else {
+        res.json({ redirectTo: '/youngDogs' });
+      }
     });
+    
   } catch (err) {
-    console.error(err.errors);
-    console.error(err.message);
-    console.error(err.stack);
+    console.error(err);
     res.status(400).json(err);
   }
 });

@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+  {{!-- <h2>Signup</h2> --}}
+
+  <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -17,26 +19,125 @@
     </div>
 </nav>
 
-
-<div class="container mt-5">
-    <h1 class="title is-2 has-text-centered">Tell us a bit more about you so we can match you to the right fur-ever friend!</h1>
-    <div class="columns is-centered">
-        <div class="column is-half">
-            <form id="get-started-form" action="/api/users/get-started-form" method="post">
-                <div class="field">
-                    <label class="label" for="name">Name</label>
-                    <div class="control">
-                        <input class="input" type="text" name="name" id="name" autocomplete="name">
+<section class="section" style="background: url('/Assets/Images/HeroBackground.jpg') center / cover no-repeat;">
+    <div class="container">
+        <h1 class="title is-2 has-text-centered" style="color: white;">Tell us a bit more about you so we can match you to the right fur-ever friend!</h1>
+        <div class="card" style="margin: 0 auto; max-width: 70%;">
+            <div class="card-content">
+                <form id="get-started-form" action="/api/users/get-started-form" method="post">
+                    <!-- Name field -->
+                    <div class="field">
+                        <label class="label" for="name">Name</label>
+                        <div class="control">
+                            <input class="input" type="text" name="name" id="name" required autocomplete="name">
+                        </div>
                     </div>
-                </div>
-                <!-- Form questions and fields go here -->
-                <!-- Make sure to close the form tag -->
-            </form>
+                    <!-- Username field -->
+                    <div class="field">
+                        <label class="label" for="username">Username</label>
+                        <div class="control has-icons-left has-icons-right">
+                            <input class="input is-success" type="text" name="username" id="username" required placeholder="Username">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-user"></i>
+                            </span>
+                            <span class="icon is-small is-right">
+                                <i class="fas fa-check"></i>
+                            </span>
+                        </div>
+                        <p class="help is-success">This username is available</p>
+                    </div>
+                    <!-- Password fields -->
+                    <div class="field">
+                        <label class="label" for="password">Password</label>
+                        <div class="control has-icons-left">
+                            <input class="input" type="password" name="password" id="password" required placeholder="Your Password">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-lock"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label" for="reEnterPassword">Re-Enter Password</label>
+                        <div class="control has-icons-left">
+                            <input class="input" type="password" name="reEnterPassword" id="reEnterPassword" required placeholder="Re-enter Your Password">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-lock"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <!-- Email field -->
+                    <div class="field">
+                        <label class="label" for="email">Email</label>
+                        <div class="control has-icons-left has-icons-right">
+                            <input class="input is-danger" type="email" name="email" id="email" required placeholder="Your Email">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-envelope"></i>
+                            </span>
+                            <span class="icon is-small is-right">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <!-- Additional fields... -->
+                    
+                    <!-- Are you interested in fostering a senior dog? -->
+                    <div class="field">
+                        <label class="label">Are You Interested in Fostering a Senior Dog?</label>
+                        <div class="control">
+                            <label class="radio">
+                                <input type="radio" name="fostering" value="yes" required>
+                                Yes
+                            </label>
+                            <label class="radio">
+                                <input type="radio" name="fostering" 
+                                value="no" required>
+                                No
+                            </label>
+                        </div>
+                    </div>
+                    <!-- Additional fields for other pets, children, fenced yard, etc... -->
+                    <!-- ...other form fields... -->
+
+                    <!-- Submit button -->
+                    <div class="field is-grouped">
+                        <div class="control">
+                            <button type="submit" class="button is-link">Submit</button>
+                        </div>
+                        <div class="control">
+                            <button type="reset" class="button is-link is-light">Cancel</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
+</section>
 
 <script src="/js/users.js"></script>
+<script>
+    // Add an event listener for form submission
+    document.getElementById('get-started-form').addEventListener('submit', function(event) {
+        // Prevent the default form submission
+        event.preventDefault();
+
+        // Collect the form data using FormData object
+        var formData = new FormData(this);
+
+        // Send the form data to the server using fetch API
+        fetch(this.action, {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Redirect based on the server response
+            if (data.redirectTo) {
+                window.location.href = data.redirectTo;
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+</script>
 
 </body>
 </html>

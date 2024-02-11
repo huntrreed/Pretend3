@@ -68,7 +68,8 @@ app.get('/', (req, res) => {
 });
 
 // Include your routes
-const userRoutes = require('./controllers/api/userRoutes.js');
+const userRoutes = require('./controllers/userRoutes');
+app.use('/api/users', userRoutes);
 const viewRoutes = require('./controllers/views');
 
 app.use(express.json());
