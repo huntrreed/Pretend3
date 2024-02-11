@@ -25,6 +25,23 @@ const hbs = exphbs({
 app.engine('handlebars', hbs);
 app.set('view engine', 'handlebars');
 
+// Log every request
+app.use((req, res, next) => {
+  console.log(`Received ${req.method} request to ${req.url}`);
+  next();
+});
+
+// Set up CORS
+app.use(
+  cors({
+    origin: 'http://127.0.0.1:5502', // or the specific origin you want to allow change to heroku in production
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  })
+);
+
+// Serve static files from the 'public' directory
+app.use(express.static('public'));
 
 // Update your session configuration
 app.use(session({
@@ -40,37 +57,21 @@ app.use(session({
   }
 }));
 
-app.use(
-  cors({
-    origin: 'http://127.0.0.1:5502', // or the specific origin you want to allow change to heroku in production
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-  })
-);
-
-// Log every request
-app.use((req, res, next) => {
-  console.log(`Received ${req.method} request to ${req.url}`);
-  next();
-});
-
-
-
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public')));
-
 // Define a route for the root path to render the 'homepage' view
 app.get('/', (req, res) => {
   res.render('homepage', { title: 'Fur-Ever Friends' });
 });
 
+// Include your routes
 const userRoutes = require('./controllers/api/userRoutes.js');
 const viewRoutes = require('./controllers/views');
 
-app.use('/', viewRoutes);
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
+// Define routes
+app.use('/', viewRoutes);
+app.use('/api/users', userRoutes);
 
 const PORT = process.env.PORT || 5502;
 sequelize
