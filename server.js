@@ -13,6 +13,9 @@ const sequelize = require('./config/connection.js');
 
 const app = express();
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 const hbs = exphbs({
   helpers: helpers,
   extname: '.handlebars', // Set the extension name
@@ -73,8 +76,6 @@ app.use('/api/users', userRoutes);
 
 const viewRoutes = require('./controllers/views');
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
 // Define routes
 app.use('/', viewRoutes);
