@@ -1,9 +1,44 @@
-<h2>Non Senior Dogs</h2>
+{{!-- Assuming 'dogs' is an array of dog objects passed to this template --}}
+<div class="carousel-container">
+  <button class="carousel-arrow left-arrow"><i class="fas fa-chevron-left"></i></button>
+  <div class="carousel-content">
+    {{#each dogs}}
+      <div class="card" data-name="{{this.name}}">
+        <header class="card-header">
+          <p class="card-header-title">{{this.name}}</p>
+          <button class="heart-button">
+            <i class="far fa-heart"></i> <!-- Font Awesome Heart Icon -->
+          </button>
+        </header>
+        <div class="card-image">
+          <figure class="image is-4by3">
+            <!-- You'll need a way to get the appropriate image for each dog -->
+            <img src="path/to/image.jpg" alt="Pet image for {{this.name}}">
+          </figure>
+        </div>
+        <div class="card-content">
+          <div class="content">
+            <strong>Age:</strong> {{this.age}}<br>
+            <strong>Breed:</strong> {{this.breed}}<br>
+            <strong>Description:</strong> {{this.description}}
+            <button class="button more-info" id="more-info-{{this.name}}">More Info</button>
+            <div class="additional-info is-hidden" id="additional-info-{{this.name}}">
+              <!-- You might include additional dog info here -->
+            </div>
+          </div>
+        </div>
+      </div>
+    {{/each}}
+  </div>
+  <button class="carousel-arrow right-arrow"><i class="fas fa-chevron-right"></i></button>
+</div>
 
-{{#each youngDogs}}
-<h2>{{name}}</h2>
-<h2>{{description}}</h2>
-<h2>Age: {{age}}</h2>
-<h2>Kid Friendly? {{kidFriendly}}</h2>
+<!-- Here you could add the saved pets section -->
+<div class="title-box" id="saved-pets-section" style="display: none;">
+  <h1 class="title is-1">Favorited Dogs</h1>
+  <div id="saved-pets-container">
+    <!-- Saved pets will be dynamically inserted here -->
+  </div>
+</div>
 
-{{/each}}
+<script src="/js/dogcards.js"></script>
