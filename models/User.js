@@ -40,11 +40,11 @@ User.init(
       },
     },
     hasPets: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
+      // If you have a predefined set of pet types, you can use ENUM
       validate: {
-        min: 1,
-        max: 4,
+        isIn: [['Other dog(s)', 'Cat(s)', 'Other Type of Pet(s)']], 
       },
     },
     fencedYard: {
@@ -63,11 +63,10 @@ User.init(
       // allowNull: false,
     },
     previousExp: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        min: 1,
-        max: 4,
+        isIn: [['No Experience', 'Some experience but never owned one', 'I have owned a dog, but it was awhile ago', 'I have extensive experience caring for dogs']], 
       },
     },
     anythingElse: {
