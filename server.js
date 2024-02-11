@@ -41,8 +41,13 @@ app.use(
 );
 
 // Serve static files from the 'public' directory
-app.use(express.static('public'));
-
+app.use(express.static('public', {
+  setHeaders: (res, path) => {
+    if (path.endsWith('.css')) {
+      res.setHeader('Content-Type', 'text/css');
+    }
+  }
+}));
 // Update your session configuration
 app.use(session({
   secret: process.env.SESSION_SECRET, // Set a session secret in your .env file
