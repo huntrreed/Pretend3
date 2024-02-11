@@ -4,9 +4,9 @@ document.addEventListener('DOMContentLoaded', () => {
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
 
-    // Collecting form data
+    // Correcting selectors to match HTML IDs and names
     const name = document.querySelector('#name').value.trim();
-    const userName = document.querySelector('#username').value.trim(); // Ensure ID matches
+    const userName = document.querySelector('#username').value.trim(); // Ensure ID matches, assuming it's 'username' not 'userName'
     const email = document.querySelector('#email').value.trim();
     const password = document.querySelector('#password').value.trim();
     const reenteredPassword = document.querySelector('#reEnterPassword').value.trim();
