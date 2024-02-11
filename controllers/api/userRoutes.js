@@ -58,6 +58,7 @@ router.post('/get-started-form', async (req, res) => {
       res.status(500).json({ error: 'An internal server error occurred.' });
     }
   }
+});
 
 router.post('/login', async (req, res) => {
   try {
