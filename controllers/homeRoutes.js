@@ -115,15 +115,19 @@ router.get('/profile', withAuth, async (req, res) => {
       return;
     }
     // Find the logged in user based on the session ID
-    // const userData = await User.findByPk(req.session.user_id, {
-    //   attributes: { exclude: ['password'] },
-    //   include: [{ model: Dog }],
-    // });
+  const userData = await User.findByPk(req.session.user_id, {
+    attributes: { exclude: ['password'] },
+   
+  });
+  if (!userData) {
+    // user data is not found sends error
+    res.status(404).json({ message: "User not found" });
+    return;
+  }
 
-    // const user = userData.get({ plain: true });
-
+    const user = userData.get({ plain: true });
     res.render('profile.handlebars', {
-      // user,
+      user,
       logged_in: true,
     });
   } catch (err) {
