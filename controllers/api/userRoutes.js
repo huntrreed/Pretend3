@@ -7,14 +7,14 @@ const { User } = require('../../models');
 router.post('/get-started-form', async (req, res) => {
   const {
     name,
-    userName,
+    username,
     email,
     password,
     fostering,
   } = req.body;
 
   // Ensure all required fields are provided
-  if (!name || !userName || !email || !password) {
+  if (!name || !username || !email || !password) {
     return res.status(400).json({ error: 'All fields are required.' });
   }
 
@@ -23,7 +23,7 @@ router.post('/get-started-form', async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = await User.create({
       name,
-      userName,
+      username,
       email,
       password: hashedPassword,
       fostering,
