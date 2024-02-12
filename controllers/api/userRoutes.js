@@ -21,25 +21,21 @@ router.post('/get-started-form', async (req, res) => {
       allowSenior,
     });
 
-    req.session.save(() => {
-      req.session.user_id = newUser.id;
-      req.session.logged_in = true;
-
-      res.status(200).json(newUser);
+    // Sets session variables and saves session
+    req.session.user_id = newUser.id;
+    req.session.logged_in = true;
+     
+     // Wait for session to be saved before redirecting
+     req.session.save(() => {
+      res.redirect('/profile');
     });
-
-    //  validation error messages were causing it to crash so tried to clean that up
   } catch (err) {
-    // if (err.name === 'SequelizeValidationError') {
-    //   const validationErrors = err.errors.map((error) => error.message);
-    //   res.status(400).json({ errors: validationErrors });
-    // } else {
     console.error(err);
     res.status(500).json({ error: 'An internal server error occurred.' });
-    // }
   }
 });
 
+//Login route
 router.post('/login', async (req, res) => {
   try {
     const userData = await User.findOne({ where: { email: req.body.email } });
@@ -76,7 +72,7 @@ router.post('/login', async (req, res) => {
     res.status(400).json(err);
   }
 });
-
+//Logout route
 router.post('/logout', (req, res) => {
   if (req.session.logged_in) {
     req.session.destroy(() => {
