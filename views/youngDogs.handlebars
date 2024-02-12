@@ -20,7 +20,13 @@
           <div class="content">
             <strong>Age:</strong> {{this.age}}<br>
             <strong>Breed:</strong> {{this.breed}}<br>
-            <strong>Description:</strong> {{this.description}}
+            <strong>Description:</strong> {{this.description}}<br>
+            <strong>Energy Level:</strong> {{this.energyLevel}}<br>
+            <strong>Kid Friendly:</strong> {{#if this.kidFriendly}}Yes{{else}}No{{/if}}<br>
+            <strong>Other Dog Friendly:</strong> {{#if this.otherDogFriendly}}Yes{{else}}No{{/if}}<br>
+            <strong>Spayed/Neutered:</strong> {{#if this.spayedNeutered}}Yes{{else}}No{{/if}}<br>
+            <strong>Weight:</strong> {{this.weight}}<br>
+            <strong>Special Medical Needs:</strong> {{#if this.specialMedNeeds}}Yes{{else}}No{{/if}}<br>
             <button class="button more-info" id="more-info-{{this.name}}">More Info</button>
             <div class="additional-info is-hidden" id="additional-info-{{this.name}}">
               <!-- You might include additional dog info here -->
