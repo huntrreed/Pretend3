@@ -3,6 +3,8 @@ const router = require('express').Router();
 const withAuth = require('../utils/auth');
 const { Dog, User } = require('../models');
 const { Op, json } = require('sequelize');
+const path = require('path');
+const dataPath = path.join(__dirname, '..', '..', 'seeds', 'dogData.json');
 
 // // Helper function to read dog data from JSON file
 // async function getDogData() {
@@ -53,7 +55,7 @@ router.get('/', async (req, res) => {
 router.get('/dogs', async (req, res) => {
   try {
     // Assuming dogData.json is located at the root of your project
-    const data = await fs.readFile('../seeds/dogData', 'utf8');
+    const data = await fs.readFile(dataPath, 'utf8');
     const dogs = JSON.parse(data);
     res.render('dogs', { dogs }); // Make sure your Handlebars file is named dogs.handlebars
   } catch (err) {
