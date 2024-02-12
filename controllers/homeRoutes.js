@@ -1,3 +1,5 @@
+const Sequelize = require('sequelize');
+const { Op } = require('sequelize');
 const router = require('express').Router();
 const { Dog, User } = require('../models');
 const withAuth = require('../utils/auth');
@@ -44,7 +46,7 @@ router.get('/youngDogs', async (req, res) => {
     const dogsData = await Dog.findAll({
       where: {
         age: {
-          [Sequelize.Op.lt]: 9, // Assuming 'age' is a column in your 'Dog' model
+          [Op.lt]: 9, // Assuming 'age' is a column in your 'Dog' model
         },
       },
       include: [
