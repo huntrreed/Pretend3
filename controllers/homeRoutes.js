@@ -1,4 +1,4 @@
-// const fs = require('fs').promises;
+const fs = require('fs').promises;
 const router = require('express').Router();
 const withAuth = require('../utils/auth');
 const { Dog, User } = require('../models');
@@ -48,43 +48,59 @@ router.get('/', async (req, res) => {
 
 
 // Route handles rendering dogs based on user's preferences
+
+
 router.get('/dogs', async (req, res) => {
   try {
-    const userId = req.session.user_id;
-
-    // Find the user with the given ID
-    const user = await User.findByPk(userId, {
-      attributes: ['allowSenior'],
-    });
-
-    if (!user) {
-      return res.status(404).json({ message: 'No user found with this id!' });
-    }
-
-    // Get the allowSenior flag from the user
-    const allowSenior = user.allowSenior;
-    // Define the where condition based on the allowSenior flag
-    const whereCondition = allowSenior ? {} : { age: { [Op.lt]: 9 } };
-
-    // Fetch dogs based on the allowSenior flag
-    const dogsData = await Dog.findAll({
-      where: whereCondition,
-    });
-
-    const dogs = dogsData.map((dog) => dog.get({ plain: true }));
-    console.log('Dogs:', dogs);
-
-    console.log('Dogs:', dogs);
-    // Render the page with the dogs information
-    res.render('dogs.handlebars', {
-      dogs, // Pass the enhanced dogs array
-      session: req.session,
-    });
+    // Assuming dogData.json is located at the root of your project
+    const data = await fs.readFile('./dogData.json', 'utf8');
+    const dogs = JSON.parse(data);
+    res.render('dogs', { dogs }); // Make sure your Handlebars file is named dogs.handlebars
   } catch (err) {
-    console.error('Error:', err);
-    res.status(500).json({ error: 'Failed to load dog data' });
+    console.error('Error loading dog data:', err);
+    res.status(500).send({ error: 'Failed to load dog data' });
   }
 });
+
+//FROM EARLIER EVANS SECTION FILTERING BY AGE-----
+// router.get('/dogs', async (req, res) => {
+//   try {
+//     const userId = req.session.user_id;
+
+//     // Find the user with the given ID
+//     const user = await User.findByPk(userId, {
+//       attributes: ['allowSenior'],
+//     });
+
+//     if (!user) {
+//       return res.status(404).json({ message: 'No user found with this id!' });
+//     }
+
+//     // Get the allowSenior flag from the user
+//     const allowSenior = user.allowSenior;
+//     // Define the where condition based on the allowSenior flag
+//     const whereCondition = allowSenior ? {} : { age: { [Op.lt]: 9 } };
+
+//     // Fetch dogs based on the allowSenior flag
+//     const dogsData = await Dog.findAll({
+//       where: whereCondition,
+//     });
+
+//     const dogs = dogsData.map((dog) => dog.get({ plain: true }));
+//     console.log('Dogs:', dogs);
+
+//     console.log('Dogs:', dogs);
+//     // Render the page with the dogs information
+//     res.render('dogs.handlebars', {
+//       dogs, // Pass the enhanced dogs array
+//       session: req.session,
+//     });
+//   } catch (err) {
+//     console.error('Error:', err);
+//     res.status(500).json({ error: 'Failed to load dog data' });
+//   }
+// });
+
 
 router.get('/dog/:id', async (req, res) => {
   try {
