@@ -158,5 +158,6 @@ router.get('/getStarted', async (req, res) => {
     res.status(500).json(err);
   }
 });
+console.log(req.session);
 
 module.exports = router;
