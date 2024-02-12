@@ -339,20 +339,25 @@ color: var(--bright);
 
 
 /*Profile Page Styline*/
+/* custom-bulma.css */
+
+/* Custom styling for Bulma buttons */
+.savebutton.is-large {
+  font-size: 1.5rem;
+  padding: 1.5rem 3rem;
+  font-weight: 700;
+}
+
+/* Custom styling for Bulma card */
 .welccard {
-  width: 80%; /* Adjust the width of the card */
-  margin: auto; /* Center the card horizontally */
-  border-radius: 0; 
+  width: 80%;
+  margin: auto;
+  border-radius: 0;
   background-color: #EDE7E3;
 }
 
+/* Custom styling for Bulma title */
 .welctitle {
-  font-size: 2.5rem; /* Increase the font size of the title */
-  color: magenta; /* Change the font color */
-}
-
-.savebutton.is-large {
-  font-size: 1.5rem; /* Increase the font size of the buttons */
-  padding: 1.5rem 3rem; /* Increase the padding of the buttons */
-  font-weight: 700; 
+  font-size: 2.5rem;
+  color: magenta;
 }

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>User Profile</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css">
-  <link rel="stylesheet" href="/Assets/css/style.css"> <!-- Link to your custom CSS file -->
+  <link rel="stylesheet" href="./Assets/css/custom-bulma.css"> <!-- Link to your custom Bulma CSS file -->
 </head>
 <body>
   <div class="container">
@@ -15,11 +15,11 @@
       </div>
       <footer class="card-footer">
         {{#if user.seniorDog}}
-          <a href="/alldogs" class="card-footer-item savebutton is-primary is-large">See your matches!</a>
+          <a href="/alldogs" class="card-footer-item button is-primary is-large savebutton">See your matches!</a>
         {{else}}
-          <a href="/dogs" class="card-footer-item savebutton is-primary is-large">See your matches!</a>
+          <a href="/dogs" class="card-footer-item button is-primary is-large savebutton">See your matches!</a>
         {{/if}}
-        <a href="/savedDogs" class="card-footer-item savebutton is-success is-large">See your saved dogs!</a>
+        <a href="/savedDogs" class="card-footer-item button is-success is-large savebutton">See your saved dogs!</a>
       </footer>
     </div>
   </div>
@@ -27,5 +27,3 @@
   <script src="./js/profile.js"></script>
 </body>
 </html>
-
-
