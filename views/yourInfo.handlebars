@@ -115,24 +115,23 @@
 
 <script src="/js/users.js"></script>
 <script>
-    // Add an event listener for form submission
+   <script src="/js/users.js"></script>
+<script>
     document.getElementById('get-started-form').addEventListener('submit', function(event) {
-        // Prevent the default form submission
-        event.preventDefault();
+        event.preventDefault(); // Prevent the default form submission
+        var formData = new FormData(this); // Collect the form data
 
-        // Collect the form data using FormData object
-        var formData = new FormData(this);
-
-        // Send the form data to the server using fetch API
         fetch(this.action, {
             method: 'POST',
             body: formData
         })
-        .then(response => response.json())
-        .then(data => {
-            // Redirect based on the server response
-            if (data.redirectTo) {
-                window.location.href = data.redirectTo;
+        .then(response => {
+            if (response.ok) {
+                // For testing, redirect directly to '/youngDogs' route
+                window.location.href = '/youngDogs';
+            } else {
+                console.error('Form submission error');
+                // Handle errors or unsuccessful submissions here
             }
         })
         .catch(error => console.error('Error:', error));

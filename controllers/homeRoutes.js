@@ -4,7 +4,7 @@ const withAuth = require('../utils/auth');
 
 // Helper function to read dog data from JSON file
 async function getDogData() {
-  const dogDataJson = await fs.readFile('path/to/your/dogData.json', 'utf8');
+  const dogDataJson = await fs.readFile('dogData.json', 'utf8');
   return JSON.parse(dogDataJson);
 }
 
