@@ -76,10 +76,18 @@ app.use('/api/users', userRoutes);
 
 const viewRoutes = require('./controllers/views');
 
+const homeRoutes = require('./controllers/homeRoutes');
+// If you have other route files, require them similarly
+app.use('/', homeRoutes);
+// For API routes
+const apiRoutes = require('./controllers/api/index'); // Adjust path as necessary
+app.use('/api', apiRoutes);
+
 // Route to serve dog data
 app.get('/api/dogs', (req, res) => {
   res.sendFile(path.join(__dirname, 'seeds', 'dogData.json'));
 });
+
 
 // Define routes
 app.use('/', viewRoutes);
