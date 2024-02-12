@@ -109,6 +109,7 @@ router.get('/dog/:id', async (req, res) => {
 });
 //if user is not logged in they are directed to login page
 router.get('/profile', withAuth, async (req, res) => {
+  console.log(req.session);
   try {
     if (!req.session.logged_in) {
       res.redirect('/login');
@@ -158,6 +159,6 @@ router.get('/getStarted', async (req, res) => {
     res.status(500).json(err);
   }
 });
-console.log(req.session);
+
 
 module.exports = router;
