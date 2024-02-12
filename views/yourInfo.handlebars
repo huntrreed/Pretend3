@@ -85,12 +85,12 @@
                         <label class="label">Are You Interested in Fostering a Senior Dog?</label>
                         <div class="control">
                             <label class="radio">
-                                <input type="radio" name="fostering" value="yes" required>
+                                <input type="radio" name="allowSenior" value="true" required>
                                 Yes
                             </label>
                             <label class="radio">
-                                <input type="radio" name="fostering" 
-                                value="no" required>
+                                <input type="radio" name="allowSenior" 
+                                value="false" required>
                                 No
                             </label>
                         </div>
@@ -114,29 +114,6 @@
 </section>
 
 <script src="/js/users.js"></script>
-<script>
-   <script src="/js/users.js"></script>
-<script>
-    document.getElementById('get-started-form').addEventListener('submit', function(event) {
-        event.preventDefault(); // Prevent the default form submission
-        var formData = new FormData(this); // Collect the form data
-
-        fetch(this.action, {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => {
-            if (response.ok) {
-                // For testing, redirect directly to '/youngDogs' route
-                window.location.href = '/youngDogs';
-            } else {
-                console.error('Form submission error');
-                // Handle errors or unsuccessful submissions here
-            }
-        })
-        .catch(error => console.error('Error:', error));
-    });
-</script>
 
 </body>
 </html>

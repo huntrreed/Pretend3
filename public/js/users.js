@@ -1,9 +1,11 @@
 document.getElementById('get-started-form').addEventListener('submit', function(event) {
   event.preventDefault();
-
+  console.log('Form submitted');
   // Define password and reenteredPassword before formData for validation
   const password = document.getElementById('password').value.trim();
-  const reenteredPassword = document.getElementById('reEnterPassword').value.trim();
+  const reenteredPassword = document
+    .getElementById('reEnterPassword')
+    .value.trim();
 
   // Validation checks
   if (password !== reenteredPassword) {
@@ -21,31 +23,29 @@ document.getElementById('get-started-form').addEventListener('submit', function(
     username: document.getElementById('username').value.trim(),
     email: document.getElementById('email').value.trim(),
     password: document.getElementById('password').value.trim(),
-    reenteredPassword: document.getElementById('reEnterPassword').value.trim(), 
-    fostering: document.querySelector('input[name="fostering"]:checked').value,
+    reenteredPassword: document.getElementById('reEnterPassword').value.trim(),
+    allowSenior: document.querySelector('input[name="allowSenior"]:checked')
+      .value,
   };
 
-  fetch(this.action, {
+  fetch('/api/users/get-started-form', {
     method: 'POST',
-    headers: {
-        'Content-Type': 'application/json', // Set the content type to JSON
-    },
-    body: JSON.stringify(formData) // Convert the form data to JSON
-})
-.then(response => {
-    if (!response.ok) {
-        throw new Error('Network response was not ok');
-    }
-    return response.json();
-})
-.then(data => {
-    // Redirect based on the server response
-    if (data.redirectTo) {
-      window.location.href = data.redirectTo;
-    }
+    headers: { 'Content-Type': 'application/json' }, // Tell the server we are sending JSON
+    body: JSON.stringify(formData), // Convert the form data to JSON
   })
-  .catch(error => {
-    console.error('Error:', error);
-    alert('An error occurred. Please try again.');
-  });
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then((data) => {
+      // Redirect based on the server response
+      console.log(`Response: ${JSON.stringify(data)}`);
+      window.location = '/dogs';
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+      alert('An error occurred. Please try again.');
+    });
 });

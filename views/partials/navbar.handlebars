@@ -8,11 +8,11 @@
   </div>
   <div class="navbar-end">
     
-    {{#if logged_in}}
-        <a href="/profile">Profile</a> |
-        <button class="no-button" id="logout">Logout</button>
+    {{#if session.logged_in}}
+        <a class="navbar-item" href="/profile">Profile</a> |
+        <a class="no-button navbar-item" id="logout" href="/">Logout</a> |
         {{else}}
-        <a class="navbar-item" href="/login">Login</a>
+        <a class="navbar-item" href="/login">Login</a> |
         {{/if}}
     <a class="navbar-item" id="about-us-button" href="#">About Us</a>
   </div>
@@ -62,3 +62,7 @@
         modalClose.addEventListener('click', toggleModal);
     });
   </script>
+
+  {{#if session.logged_in}}
+  <script src="/js/logout.js"></script>
+  {{/if}}

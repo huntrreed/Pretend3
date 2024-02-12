@@ -1,91 +1,155 @@
-const fs = require('fs').promises;
+// const fs = require('fs').promises;
 const router = require('express').Router();
 const withAuth = require('../utils/auth');
+const { Dog, User } = require('../models');
+const { Op, json } = require('sequelize');
 
-// Helper function to read dog data from JSON file
-async function getDogData() {
-  const dogDataJson = await fs.readFile('dogData.json', 'utf8');
-  return JSON.parse(dogDataJson);
-}
+// // Helper function to read dog data from JSON file
+// async function getDogData() {
+//   const dogDataJson = await fs.readFile('dogData.json', 'utf8');
+//   return JSON.parse(dogDataJson);
+// }
 
-// Helper function to find a dog by id from JSON data
-async function findDogById(id) {
-  const dogs = await getDogData();
-  return dogs.find(dog => dog.id.toString() === id);
-}
+// // Helper function to find a dog by id from JSON data
+// async function findDogById(id) {
+//   const dogs = await getDogData();
+//   return dogs.find(dog => dog.id.toString() === id);
+// }
 
-// Route to render the homepage with all dogs
 router.get('/', async (req, res) => {
   try {
-    const dogs = await getDogData();
-    res.render('homepage', { dogs, logged_in: req.session.logged_in });
+    // Get all dogs and JOIN with user data
+    // const dogsData = await Dog.findAll({
+    //   include: [
+    //     {
+    //       model: User,
+    //       attributes: ['name'],
+    //     },
+    //   ],
+    // });
+
+    // Serialize data so the template can read it
+    // const dogs = dogsData.map((dog) => dog.get({ plain: true }));
+
+    //filter dogs array for conditions when needed
+    //dogs = dogs.filter(dog => dog.age > 9)
+    // Pass serialized data and session flag into template
+    console.log(req.session);
+    res.render('homepage.handlebars', {
+      // dogs,
+      session: req.session,
+    });
+
+    console.log('Rendered homepage');
   } catch (err) {
     res.status(500).json({ error: 'Failed to load dog data' });
   }
 });
 
-// Route to render all dogs
-router.get('/alldogs', async (req, res) => {
+
+// Route handles rendering dogs based on user's preferences
+router.get('/dogs', async (req, res) => {
   try {
-    const dogs = await getDogData();
-    res.render('allDogs', { dogs, logged_in: req.session.logged_in });
+    const userId = req.session.user_id;
+
+    // Find the user with the given ID
+    const user = await User.findByPk(userId, {
+      attributes: ['allowSenior'],
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: 'No user found with this id!' });
+    }
+
+    // Get the allowSenior flag from the user
+    const allowSenior = user.allowSenior;
+    // Define the where condition based on the allowSenior flag
+    const whereCondition = allowSenior ? {} : { age: { [Op.lt]: 9 } };
+
+    // Fetch dogs based on the allowSenior flag
+    const dogsData = await Dog.findAll({
+      where: whereCondition,
+    });
+
+    const dogs = dogsData.map((dog) => dog.get({ plain: true }));
+    console.log('Dogs:', dogs);
+
+    console.log('Dogs:', dogs);
+    // Render the page with the dogs information
+    res.render('dogs.handlebars', {
+      dogs, // Pass the enhanced dogs array
+      session: req.session,
+    });
   } catch (err) {
+    console.error('Error:', err);
     res.status(500).json({ error: 'Failed to load dog data' });
   }
 });
 
-// Route to render young dogs (under age 9)
-router.get('/youngDogs', async (req, res) => {
-  try {
-    const allDogs = await getDogData();
-    const youngDogs = allDogs.filter(dog => parseInt(dog.age) < 9);
-    res.render('youngDogs', { dogs: youngDogs, logged_in: req.session.logged_in });
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to load young dogs data' });
-  }
-});
-
-// Route to render a specific dog's details
 router.get('/dog/:id', async (req, res) => {
   try {
-    const dog = await findDogById(req.params.id);
-    if (dog) {
-      res.render('dog', { dog, logged_in: req.session.logged_in });
-    } else {
-      res.status(404).send('Dog not found');
-    }
+    const dogData = await Project.findByPk(req.params.id, {
+      include: [
+        {
+          model: User,
+          attributes: ['name'],
+        },
+      ],
+    });
+
+    const dog = dogData.get({ plain: true });
+
+    res.render('dog.handlebars', {
+      ...dog,
+      session: req.session,
+    });
   } catch (err) {
     res.status(500).json(err);
   }
 });
-
-// Route to render user's profile page
+//if user is not logged in they are directed to login page
 router.get('/profile', withAuth, async (req, res) => {
   try {
-    const userData = await User.findByPk(req.session.user_id, {
-      attributes: { exclude: ['password'] },
-      include: [{ model: Dog }],
+    if (!req.session.logged_in) {
+      res.redirect('/login');
+      return;
+    }
+    // Find the logged in user based on the session ID
+    // const userData = await User.findByPk(req.session.user_id, {
+    //   attributes: { exclude: ['password'] },
+    //   include: [{ model: Dog }],
+    // });
+
+    // const user = userData.get({ plain: true });
+
+    res.render('profile.handlebars', {
+      // user,
+      logged_in: true,
     });
-    const user = userData.get({ plain: true });
-    res.render('profile', { user, logged_in: true });
   } catch (err) {
     res.status(500).json(err);
   }
 });
 
-// Route for login page
 router.get('/login', (req, res) => {
+  // If the user is already logged in, redirect the request to another route
   if (req.session.logged_in) {
     res.redirect('/profile');
     return;
   }
+
   res.render('login');
 });
 
 // Added route for "Get Started" page to render the form
 router.get('/getStarted', async (req, res) => {
   try {
-    res.render('yourInfo'); 
+    if (req.session.logged_in) {
+      res.redirect('/profile');
+      return;
+    }
+
+    res.render('yourInfo');
   } catch (err) {
     res.status(500).json(err);
   }

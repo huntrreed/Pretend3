@@ -1,3 +1,4 @@
+// theDogAPI no longer being used
 const router = require('express').Router();
 require('dotenv').config();
 const cors = require('cors');
@@ -15,8 +16,8 @@ router.get('/:breed', (req, res) => {
 
   if (reqData === 'Mix' || reqData === 'mix') {
     mixData = {
-      weight: 'Varies', // Weight of a 'Mix' breed is 'Varies'
-      height: 'Varies', // Height of a 'Mix' breed is 'Varies
+      average_weight: 'Varies', // Weight of a 'Mix' breed is 'Varies'
+      average_height: 'Varies', // Height of a 'Mix' breed is 'Varies
       breed: 'Mix', // Breed of a 'Mix' breed is 'Mix'
       life_span: '10-15 years', // Average lifespan of a dog
       temperament: 'Varies', // Temperament of a 'Mix' breed is 'Varies
@@ -39,7 +40,7 @@ router.get('/:breed', (req, res) => {
   }
 
   const url = `https://api.thedogapi.com/v1/breeds/search?q=${breed}`;
-
+  console.log(url);
   // Fetch the data
   fetch(url, {
     headers: {
@@ -58,9 +59,8 @@ router.get('/:breed', (req, res) => {
       const dog = data[0];
       // Create a new object
       const dogData = {
-        weight: dog.weight.imperial,
-        height: dog.height.imperial,
-        breed: dog.name,
+        average_weight: dog.weight.imperial,
+        average_height: dog.height.imperial,
         life_span: dog.life_span,
         temperament: dog.temperament,
         image: dog.image.url,

@@ -1,5 +1,24 @@
-<!-- dogCard.handlebars -->
-<div class="card" data-name="{{name}}">
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dogs!</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="/Assets/css/style.css">
+</head>
+<body>
+
+<nav class="navbar is-primary" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+        <img src="/Assets/Images/Logo.png" alt="FurEver Friends Logo">
+    </div>
+    <div class="navbar-center">
+        <p class="title">FurEver Friends</p> 
+    </div>
+</nav>
+
+{{#each dogs}}
+    <div class="card" data-name="{{name}}">
   <header class="card-header">
     <p class="card-header-title">{{name}}</p>
     <button class="heart-button {{#if saved}}saved{{/if}}" aria-label="Save">
@@ -16,7 +35,7 @@
       <strong>Age:</strong> {{age}}<br>
       <strong>Breed:</strong> {{breed}}<br>
       <strong>Description:</strong> {{description}}<br>
-      <button class="button is-small more-info" data-name="{{name}}">More Info</button>
+      <button id="breed-info-{{name}}" class="button is-small more-info" data-name="{{name}}">More Info</button>
       <div class="additional-info is-hidden" id="additional-info-{{name}}">
         <strong>Energy Level:</strong> {{energyLevel}}<br>
         <strong>Kid Friendly:</strong> {{#if kidFriendly}}Yes{{else}}No{{/if}}<br>
@@ -24,10 +43,15 @@
         <strong>Spayed/Neutered:</strong> {{#if spayedNeutered}}Yes{{else}}No{{/if}}<br>
         <strong>Weight:</strong> {{weight}}<br>
         <strong>Special Medical Needs:</strong> {{#if specialMedNeeds}}Yes{{else}}No{{/if}}<br>
-        <div class="breed-info is-hidden" id="breed-info-{{name}}">
-          <!-- Breed info will be loaded by JavaScript -->
+        <div class="breed-info is-hidden" >
         </div>
       </div>
     </div>
   </div>
 </div>
+{{/each}}
+
+</body>
+
+{{!-- <script src="/js/dogcards.js"></script> --}}
+</html>

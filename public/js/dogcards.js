@@ -29,6 +29,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  moreInfoButtons = document.querySelectorAll('.more-info');
+
+  moreInfoButtons.forEach((button) => {
+    button.addEventListener('click', (e) => {
+      const name = e.target.getAttribute('data-name');
+      const additionalInfo = document.getElementById(`additional-info-${name}`);
+      const breedInfo = document.getElementById(`breed-info-${name}`);
+      additionalInfo.classList.toggle('is-hidden');
+      breedInfo.classList.toggle('is-hidden');
+    });
+  });
+
   // Function to toggle favorite status and move card
   function toggleFavoriteAndMoveCard(heartBtn, petCard) {
     heartBtn.classList.toggle('saved');
