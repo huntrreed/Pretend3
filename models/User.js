@@ -48,12 +48,10 @@ User.init(
       },
     },
     fencedYard: {
-      // all, size
       type: DataTypes.BOOLEAN,
       // allowNull: false,
     },
     hasKids: {
-      /// kidFriendly
       type: DataTypes.BOOLEAN,
       // allowNull: false,
     },
