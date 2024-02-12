@@ -1,87 +1,55 @@
-const Sequelize = require('sequelize');
-const { Op } = require('sequelize');
+const fs = require('fs').promises;
 const router = require('express').Router();
-const { Dog, User } = require('../models');
 const withAuth = require('../utils/auth');
+
+// Helper function to read dog data from JSON file
+async function getDogData() {
+  const dogDataJson = await fs.readFile('path/to/your/dogData.json', 'utf8');
+  return JSON.parse(dogDataJson);
+}
+
+// Helper function to find a dog by id from JSON data
+async function findDogById(id) {
+  const dogs = await getDogData();
+  return dogs.find(dog => dog.id.toString() === id);
+}
 
 // Route to render the homepage with all dogs
 router.get('/', async (req, res) => {
   try {
-    const dogsData = await Dog.findAll({
-      include: [
-        {
-          model: User,
-          attributes: ['name'],
-        },
-      ],
-    });
-    const dogs = dogsData.map((dog) => dog.get({ plain: true }));
+    const dogs = await getDogData();
     res.render('homepage', { dogs, logged_in: req.session.logged_in });
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json({ error: 'Failed to load dog data' });
   }
 });
 
 // Route to render all dogs
 router.get('/alldogs', async (req, res) => {
   try {
-    const dogsData = await Dog.findAll({
-      include: [
-        {
-          model: User,
-          attributes: ['name'],
-        },
-      ],
-    });
-    const dogs = dogsData.map((dog) => dog.get({ plain: true }));
+    const dogs = await getDogData();
     res.render('allDogs', { dogs, logged_in: req.session.logged_in });
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json({ error: 'Failed to load dog data' });
   }
 });
 
 // Route to render young dogs (under age 9)
 router.get('/youngDogs', async (req, res) => {
   try {
-    const dogsData = await Dog.findAll({
-      where: {
-        age: {
-          [Op.lt]: 9, // Assuming 'age' is a column in your 'Dog' model
-        },
-      },
-      include: [
-        {
-          model: User,
-          attributes: ['name'],
-        },
-      ],
-    });
-    const youngDogs = dogsData.map(dog => dog.get({ plain: true }));
-
-    // Pass the youngDogs array to the 'youngDogs' view
-    res.render('youngDogs', {
-      dogs: youngDogs,
-      logged_in: req.session.logged_in
-    });
+    const allDogs = await getDogData();
+    const youngDogs = allDogs.filter(dog => parseInt(dog.age) < 9);
+    res.render('youngDogs', { dogs: youngDogs, logged_in: req.session.logged_in });
   } catch (err) {
-    console.error('Error fetching young dogs:', err);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: 'Failed to load young dogs data' });
   }
 });
 
 // Route to render a specific dog's details
 router.get('/dog/:id', async (req, res) => {
   try {
-    const dogData = await Dog.findByPk(req.params.id, {
-      include: [
-        {
-          model: User,
-          attributes: ['name'],
-        },
-      ],
-    });
-    if (dogData) {
-      const dog = dogData.get({ plain: true });
+    const dog = await findDogById(req.params.id);
+    if (dog) {
       res.render('dog', { dog, logged_in: req.session.logged_in });
     } else {
       res.status(404).send('Dog not found');
@@ -89,15 +57,6 @@ router.get('/dog/:id', async (req, res) => {
   } catch (err) {
     res.status(500).json(err);
   }
-});
-
-// Route to render the form page (assuming 'yourInfo' is a form page)
-router.get('/yourInfo', (req, res) => {
-  if (!req.session.logged_in) {
-    res.redirect('/login');
-    return;
-  }
-  res.render('yourInfo', { logged_in: req.session.logged_in });
 });
 
 // Route to render user's profile page
@@ -121,6 +80,15 @@ router.get('/login', (req, res) => {
     return;
   }
   res.render('login');
+});
+
+// Added route for "Get Started" page to render the form
+router.get('/getStarted', async (req, res) => {
+  try {
+    res.render('yourInfo'); 
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
 module.exports = router;

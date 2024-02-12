@@ -7,7 +7,13 @@
     <p class="title">FurEver Friends</p> 
   </div>
   <div class="navbar-end">
-    <a class="navbar-item" href="/login">Login</a>
+    
+    {{#if logged_in}}
+        <a href="/profile">Profile</a> |
+        <button class="no-button" id="logout">Logout</button>
+        {{else}}
+        <a class="navbar-item" href="/login">Login</a>
+        {{/if}}
     <a class="navbar-item" id="about-us-button" href="#">About Us</a>
   </div>
 </nav>
@@ -32,3 +38,27 @@
   </div>
   <button class="modal-close is-large" aria-label="close"></button>
   </div>
+
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const navbarBurger = document.querySelector('.navbar-burger');
+
+        // Function to toggle the modal
+        function toggleModal() {
+            const aboutUsModal = document.getElementById('about-us-modal');
+            aboutUsModal.classList.toggle('is-active');
+        }
+
+        // Event listener to open the modal when 'About Us' is clicked
+        const aboutUsButton = document.getElementById('about-us-button');
+        aboutUsButton.addEventListener('click', (e) => {
+            e.preventDefault(); 
+            toggleModal();
+        });
+
+        // Event listener to close the modal when the close button is clicked
+        const modalClose = document.querySelector('.modal-close');
+        modalClose.addEventListener('click', toggleModal);
+    });
+  </script>

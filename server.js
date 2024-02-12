@@ -18,10 +18,10 @@ app.use(express.urlencoded({ extended: true }));
 
 const hbs = exphbs({
   helpers: helpers,
-  extname: '.handlebars', // Set the extension name
-  defaultLayout: 'main', // Set the default layout
-  layoutsDir: path.join(__dirname, 'views/layouts'), // Set the layouts directory
-  partialsDir: path.join(__dirname, 'views/partials') // Set the partials directory
+  extname: '.handlebars', // extension name
+  defaultLayout: 'main', // default layout
+  layoutsDir: path.join(__dirname, 'views/layouts'), //layouts directory
+  partialsDir: path.join(__dirname, 'views/partials') // partials directory
 });
 
 // Register `hbs.engine` with the Express app
@@ -37,7 +37,7 @@ app.use((req, res, next) => {
 // Set up CORS
 app.use(
   cors({
-    origin: 'http://127.0.0.1:5502', // or the specific origin you want to allow change to heroku in production
+    origin: 'http://127.0.0.1:5502', // need to change link
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
   })
@@ -70,17 +70,16 @@ app.get('/', (req, res) => {
   res.render('homepage', { title: 'Fur-Ever Friends' });
 });
 
-// Include your routes
+// Include routes
 const userRoutes = require('./controllers/api/userRoutes');
 app.use('/api/users', userRoutes);
 
 const viewRoutes = require('./controllers/views');
 
 const homeRoutes = require('./controllers/homeRoutes');
-// If you have other route files, require them similarly
 app.use('/', homeRoutes);
 // For API routes
-const apiRoutes = require('./controllers/api/index'); // Adjust path as necessary
+const apiRoutes = require('./controllers/api/index'); // might need to adjust path here
 app.use('/api', apiRoutes);
 
 // Route to serve dog data
@@ -97,7 +96,6 @@ sequelize
   .authenticate()
   .then(() => {
     console.log('Database connected.');
-    // force: false is a safer option to avoid losing data
     return sequelize.sync({ force: false });
   })
   .then(() => {

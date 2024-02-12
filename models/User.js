@@ -20,7 +20,7 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    username: {
+    userName: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -42,16 +42,17 @@ User.init(
     hasPets: {
       type: DataTypes.STRING,
       allowNull: false,
-      // If you have a predefined set of pet types, you can use ENUM
       validate: {
         isIn: [['Other dog(s)', 'Cat(s)', 'Other Type of Pet(s)']], 
       },
     },
     fencedYard: {
+      // all, size
       type: DataTypes.BOOLEAN,
       // allowNull: false,
     },
     hasKids: {
+      /// kidFriendly
       type: DataTypes.BOOLEAN,
       // allowNull: false,
     },
@@ -97,3 +98,4 @@ User.init(
 );
 
 module.exports = User;
+

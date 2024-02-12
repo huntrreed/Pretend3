@@ -5,37 +5,16 @@
     <title>{{title}}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css">
-    <link rel="stylesheet" href="/Assets/CSS/style.css"> <!-- Assuming 'style.css' is in the 'public/css' directory -->
+    <link rel="stylesheet" href="Assets/css/style.css"> 
 </head>
 <body>
   {{ navbar }}
 
     {{{body}}}
-    <!-- Your scripts here -->
 </body>
-</html>
-        <!-- Conditionally render login or logout links -->
-        {{#if logged_in}}
-        <a href="/profile">profile</a> |
-        <button class="no-button" id="logout">logout</button>
-        {{else}}
-        <a href="/login">login</a>
-        {{/if}}
-      </nav>
-    </header>
-    <main class="container container-fluid mt-5">
-      <!-- Render the sub layout -->
-      {{{ body }}}
-    </main>
-    <footer>
-      
-    </footer>
-  </div>
-
-  <!-- Render script for logged in users only -->
+<!-- Render script for logged in users only -->
   {{#if logged_in}}
   <script src="/js/logout.js"></script>
   {{/if}}
-</body>
-
 </html>
+

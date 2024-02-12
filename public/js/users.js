@@ -32,16 +32,7 @@ document.getElementById('get-started-form').addEventListener('submit', function(
     };
   
 
-    // Validation checks
-    if (password !== reenteredPassword) {
-      alert('Passwords do not match.');
-      return;
-    }
-
-    if (password.length < 8) {
-      alert('Password must be at least 8 characters long.');
-      return;
-    }
+    
 
     fetch(this.action, {
       method: 'POST',

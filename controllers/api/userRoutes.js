@@ -1,4 +1,5 @@
 const express = require('express');
+const bcrypt = require('bcrypt'); // to hash passwords
 const router = express.Router();
 const { User } = require('../../models');
 
@@ -6,54 +7,34 @@ const { User } = require('../../models');
 router.post('/get-started-form', async (req, res) => {
   const {
     name,
-    username,
+    userName,
     email,
     password,
     fostering,
-    hasPets,
-    fencedYard,
-    hasKids,
-    previousExp,
-    anythingElse,
-    why,
   } = req.body;
 
   try {
+    const hashedPassword = await bcrypt.hash(password, 10); // hash the password
     const newUser = await User.create({
       name,
-      username,
+      userName,
       email,
-      password, // Make sure to hash the password before saving it
+      password: hashedPassword,
       fostering,
-      hasPets,
-      fencedYard,
-      hasKids,
-      previousExp,
-      anythingElse,
-      why,
     });
 
-    // Assuming you have session middleware set up
     req.session.save(() => {
       req.session.user_id = newUser.id;
       req.session.logged_in = true;
 
       // Redirect based on the fostering senior dogs response
-      if (fostering === 'yes') {
-        res.json({ redirectTo: '/allDogs' });
-      } else {
-        res.json({ redirectTo: '/youngDogs' });
-      }
+      res.json({ redirectTo: fostering === 'yes' ? '/allDogs' : '/youngDogs' });
     });
-    
   } catch (err) {
     if (err.name === 'SequelizeValidationError') {
-      // Extract validation error messages
       const validationErrors = err.errors.map((error) => error.message);
       res.status(400).json({ errors: validationErrors });
     } else {
-      // For other types of errors, you might not want to display the raw error message
-      // to the client, but rather log it internally and send a generic error message.
       console.error(err);
       res.status(500).json({ error: 'An internal server error occurred.' });
     }
@@ -65,18 +46,14 @@ router.post('/login', async (req, res) => {
     const userData = await User.findOne({ where: { email: req.body.email } });
 
     if (!userData) {
-      res
-        .status(400)
-        .json({ message: 'Incorrect email or password, please try again' });
+      res.status(400).json({ message: 'Incorrect email or password, please try again' });
       return;
     }
 
     const validPassword = await userData.checkPassword(req.body.password);
 
     if (!validPassword) {
-      res
-        .status(400)
-        .json({ message: 'Incorrect email or password, please try again' });
+      res.status(400).json({ message: 'Incorrect email or password, please try again' });
       return;
     }
 
