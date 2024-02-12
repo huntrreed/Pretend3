@@ -38,11 +38,15 @@ User.init(
       validate: {
         len: [8],
       },
+    },
+    
     fostering: {
       /// age
       type: DataTypes.BOOLEAN,
       // allowNull: false,
     },
+  },
+  {
     hooks: {
       beforeCreate: async (newUserData) => {
         newUserData.password = await bcrypt.hash(newUserData.password, 10);
@@ -60,9 +64,6 @@ User.init(
     timestamps: true,
     modelName: 'users',
   }
-}
 );
 
-
 module.exports = User;
-

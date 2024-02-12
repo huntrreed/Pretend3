@@ -4,20 +4,20 @@
     <meta charset="UTF-8">
     <title>Your Information</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css">
-    <link rel="stylesheet" href="/Assets/CSS/style.css"> 
+    <link rel="stylesheet" href="/Public/Assets/CSS/style.css"> 
 </head>
 <body>
 
     <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
-            <img src="/Assets/Images/Logo.png" alt="FurEver Friends Logo">
+            <img src="./Assets/Images/Logo.png" alt="FurEver Friends Logo">
         </div>
         <div class="navbar-center">
             <p class="title">FurEver Friends</p> 
         </div>
     
     </nav>
-    <section class="section" style="background: url('/Assets/Images/HeroBackground.jpg') center / cover no-repeat;">
+    <section class="section" style="background: url('../Public/Assets/Images/HeroBackground.jpg') center / cover no-repeat;">
         <div class="header-title" style="text-align: center; padding: 1rem; margin: 2rem;">
             <h1 class="title is-2" style="color: white;">Tell us a bit more about you so we can match you to the right fur-ever friend!</h1>
         </div>
@@ -34,9 +34,9 @@
                         </div>
                           <!--Form Questions-->
                           <div class="field">
-                            <label class="label" for="username">Username</label>
+                            <label class="label" for="userName">Username</label>
                             <div class="control">
-                                <input class="input" type="text" name="username" id="username" placeholder="username" autocomplete="username">
+                                <input class="input" type="text" name="userName" id="userName" placeholder="userName" autocomplete="userName">
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-user"></i>
                                 </span>
@@ -100,9 +100,9 @@
                               <div class="select">
                                 <select id="hasPets" name="hasPets">
                                   <option value="">Select dropdown</option>
-                                  <option value="Other dog(s)">Other dog(s)</option>
-                                  <option value="Cat(s)">Cat(s)</option>
-                                  <option value="Other Type of Pet(s)">Other Type of Pet(s)</option>                                </select>
+                                  <option value="1">Other dog(s)</option>
+                                  <option value="2">Cat(s)</option>
+                                  <option value="3">Other Type of Pet(s)</option>                                </select>
                               </div>
                             </div>
                           </div>
@@ -137,10 +137,10 @@
                                   <div class="select">
                                     <select id="previousExp" name="previousExp">
                                       <option value="">Select dropdown</option>
-                                      <option value="No Experience">No Experience</option>
-                                      <option value="Some experience but never owned one">Some experience but never owned one</option>
-                                      <option value="I have owned a dog, but it was awhile ago">I have owned a dog, but it was awhile ago</option>
-                                      <option value="I have extensive experience caring for dogs">I have extensive experience caring for dogs</option>                                    </select>
+                                      <option value="1">No Experience</option>
+                                      <option value="2">Some experience but never owned one</option>
+                                      <option value="3">I have owned a dog, but it was awhile ago</option>
+                                      <option value="4">I have extensive experience caring for dogs</option>                                    </select>
                                   </div>
                                 </div>
                               </div>
@@ -170,6 +170,6 @@
             </div>
         </div>
     </section>
-    <script src="./js/users.js"></script>
+    <script src="/public/js/users.js"></script>
 </body>
 </html>

@@ -3,7 +3,7 @@ const { Dog } = require('../models');
 const dogData = require('./dogData.json');
 
 const seedDatabase = async () => {
-  await sequelize.sync({ force: true }); // Warning: this will drop your tables and recreate them
+  await sequelize.sync({ force: true }); them
 
   const dogs = await Dog.bulkCreate(dogData, {
     individualHooks: true,
@@ -16,3 +16,4 @@ const seedDatabase = async () => {
 };
 
 seedDatabase();
+

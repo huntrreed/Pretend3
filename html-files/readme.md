@@ -1,0 +1,1 @@
+These html file should no longer live inside of the public folder. They will stay in this directory  for the purpose of reference, but page rendering should now be done entirely through handlebars.

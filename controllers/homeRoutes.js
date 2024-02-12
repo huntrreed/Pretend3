@@ -73,7 +73,7 @@ router.get('/profile', withAuth, async (req, res) => {
   }
 });
 
-// Route for login pages
+// Route for login page
 router.get('/login', (req, res) => {
   if (req.session.logged_in) {
     res.redirect('/profile');
