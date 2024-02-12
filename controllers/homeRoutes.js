@@ -53,7 +53,7 @@ router.get('/', async (req, res) => {
 router.get('/dogs', async (req, res) => {
   try {
     // Assuming dogData.json is located at the root of your project
-    const data = await fs.readFile('./dogData.json', 'utf8');
+    const data = await fs.readFile('../seeds/dogData', 'utf8');
     const dogs = JSON.parse(data);
     res.render('dogs', { dogs }); // Make sure your Handlebars file is named dogs.handlebars
   } catch (err) {
