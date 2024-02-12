@@ -30,8 +30,12 @@ router.post('/get-started-form', async (req, res) => {
       res.redirect('/profile');
     });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'An internal server error occurred.' });
+    if (err.name === 'SequelizeUniqueConstraintError') {
+      res.status(400).json({ error: 'email must be unique' });
+    } else {
+      console.error(err);
+      res.status(500).json({ error: 'An internal server error occurred.' });
+    }
   }
 });
 

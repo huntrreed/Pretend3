@@ -30,22 +30,24 @@ document.getElementById('get-started-form').addEventListener('submit', function(
 
   fetch('/api/users/get-started-form', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' }, // Tell the server we are sending JSON
-    body: JSON.stringify(formData), // Convert the form data to JSON
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(formData),
   })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.json();
-    })
-    .then((data) => {
-      // Redirect based on the server response
-      console.log(`Response: ${JSON.stringify(data)}`);
-      window.location = '/profile';
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-      alert('An error occurred. Please try again.');
-    });
-});
+  .then(response => {
+    if (response.redirected) {
+      window.location.href = response.url;
+      return;
+    }
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .then(data => {
+    // Handle JSON data
+    window.location = '/profile'; // Redirect on success
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    alert('An error occurred. Please try again.');
+  });
