@@ -336,3 +336,23 @@ color: var(--bright);
   gap: 2rem; 
   padding: 1rem;
 }
+
+
+/*Profile Page Styline*/
+.welccard {
+  width: 80%; /* Adjust the width of the card */
+  margin: auto; /* Center the card horizontally */
+  border-radius: 0; 
+  background-color: #EDE7E3;
+}
+
+.welctitle {
+  font-size: 2.5rem; /* Increase the font size of the title */
+  color: magenta; /* Change the font color */
+}
+
+.savebutton.is-large {
+  font-size: 1.5rem; /* Increase the font size of the buttons */
+  padding: 1.5rem 3rem; /* Increase the padding of the buttons */
+  font-weight: 700; 
+}

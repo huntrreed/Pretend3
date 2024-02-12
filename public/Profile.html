@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css">
+  <link rel="stylesheet" href="./Assets/css/style.css"> <!-- Link to your custom CSS file -->
+  <style>
+    .card {
+      width: 80%; /* Adjust the width of the card */
+      margin: auto;
+      border-radius: 0; 
+      background-color: #EDE7E3;/* Center the card horizontally */
+    }
+    .title {
+      font-size: 4.5rem; /* Increase the font size of the title */
+      color: #16697A !important; /* Change the font color */
+    }
+    .button.is-large {
+      font-size: 1.5rem; /* Increase the font size of the buttons */
+      padding: 1.5rem 3rem;
+      font-weight: 700; /* Increase the padding of the buttons */
+    }
+  </style>
+</head>
+<body>
+  <section class="hero is-primary is-fullheight">
+    <div class="hero-body">
+      <div class="container">
+        <div class="card">
+          <div class="card-content has-text-centered"> <!-- Center the content -->
+            <p class="title"> <!-- Adjust the title size -->
+              Welcome USERNAME!
+            </p>
+          </div>
+          <footer class="card-footer">
+            <a href="#" class="card-footer-item button is-primary is-large">See My Matches</a> <!-- Make buttons larger -->
+            <a href="#" class="card-footer-item button is-success is-large">Saved Favorites</a> <!-- Make buttons larger -->
+          </footer>
+        </div>
+      </div>
+    </div>
+  </section>
+</body>
+</html>

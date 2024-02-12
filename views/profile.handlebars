@@ -1,17 +1,31 @@
-<div class="row">
-  <div class="col-auto">
-    <h2>Welcome, {{user.name}}!</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css">
+  <link rel="stylesheet" href="./Assets/css/style.css"> <!-- Link to your custom CSS file -->
+</head>
+<body>
+  <div class="container">
+    <div class="welccard">
+      <div class="card-content has-text-centered">
+        <h2 class="welctitle">Welcome, {{user.name}}!</h2>
+      </div>
+      <footer class="card-footer">
+        {{#if user.seniorDog}}
+          <a href="/alldogs" class="card-footer-item savebutton is-primary is-large">See your matches!</a>
+        {{else}}
+          <a href="/dogs" class="card-footer-item savebutton is-primary is-large">See your matches!</a>
+        {{/if}}
+        <a href="/savedDogs" class="card-footer-item savebutton is-success is-large">See your saved dogs!</a>
+      </footer>
+    </div>
   </div>
-</div>
-{{#if user.seniorDog}}
-<a href="/alldogs">See your matches!</a>
 
-{{else}}
-<a href="/dogs">See your matches!</a>
-{{/if}}
+  <script src="./js/profile.js"></script>
+</body>
+</html>
 
-<a href="/savedDogs">See your saved dogs!</a>
 
-</div>
-
-<script src="./js/profile.js"></script>
