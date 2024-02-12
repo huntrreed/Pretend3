@@ -54,10 +54,16 @@ router.get('/youngDogs', async (req, res) => {
         },
       ],
     });
-    const youngDogs = dogsData.map((dog) => dog.get({ plain: true }));
-    res.render('youngDogs', { dogs: youngDogs, logged_in: req.session.logged_in });
+    const youngDogs = dogsData.map(dog => dog.get({ plain: true }));
+
+    // Pass the youngDogs array to the 'youngDogs' view
+    res.render('youngDogs', {
+      dogs: youngDogs,
+      logged_in: req.session.logged_in
+    });
   } catch (err) {
-    res.status(500).json(err);
+    console.error('Error fetching young dogs:', err);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
