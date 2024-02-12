@@ -42,7 +42,7 @@ document.getElementById('get-started-form').addEventListener('submit', function(
     .then((data) => {
       // Redirect based on the server response
       console.log(`Response: ${JSON.stringify(data)}`);
-      window.location = '/dogs';
+      window.location = '/profile';
     })
     .catch((error) => {
       console.error('Error:', error);
